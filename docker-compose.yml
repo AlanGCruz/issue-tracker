@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:16
+    container_name: issue_tracker_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: issuetracker
+    ports:
+      - "5432:5432" # host:container
+    volumes:
+      # Persistent storage
+      - pgdata:/var/lib/postgresql/data
+
+      # Auto-init SQL scripts (executed once when DB is first created)
+      - ./backend/src/scripts/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./backend/src/scripts/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql:ro
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d issuetracker"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:
