@@ -36,12 +36,14 @@ Issue.init(
       allowNull: true,
     },
     status: {
-      type: new DataTypes.ENUM("todo", "in-progress", "done"),
+      type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: "todo"
     },
     priority: {
-      type: new DataTypes.ENUM("low", "med", "high"),
+      type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: "med"
     },
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE,
