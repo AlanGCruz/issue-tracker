@@ -1,15 +1,16 @@
+import type { Server } from "http";
 import { createApp } from "./app";
 import { initDb } from "./db/init";
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const app = createApp();
 const port = Number(process.env.PORT) || 3000;
+const host = process.env.HOST || "0.0.0.0";
 
 await initDb(); // Initialize DB before starting the server
 
-const server = app.listen(port, () => {
-  console.log(`🚀 Server is running on http://localhost:${port}`);
+const server: Server = app.listen(port, host, () => {
+  console.log(`🚀 Server is running on http://${host}:${port}`);
 });
 
 function shutdown(signal: string) {

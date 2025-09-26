@@ -1,13 +1,20 @@
 import { Sequelize } from "sequelize";
+import "dotenv/config";
 
-export const sequelize = new Sequelize(
-  process.env.DB_NAME || "issues_db", // database
-  process.env.DB_USER || "postgres",  // username
-  process.env.DB_PASS || "yourpassword", // password
-  {
-    host: process.env.DB_HOST || "localhost",
-    port: Number(process.env.DB_PORT) || 5432,
+const connectionString = process.env.DATABASE_URL || "postgres://user:password@localhost:5433/issuetracker";
+console.log('Attempting to connect with:', connectionString);
+
+export const sequelize = new Sequelize(connectionString, {
     dialect: "postgres",
-    logging: false,
+    logging: console.log, // Temporarily enable logging to debug connection issues
+    dialectOptions: {
+      ssl: false
+    },
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    }
   }
 );

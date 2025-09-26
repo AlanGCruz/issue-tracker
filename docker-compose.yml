@@ -4,16 +4,17 @@ services:
     container_name: issue_tracker_db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: issuetracker
     ports:
-      - "5432:5432" # host:container
+      - "5433:5432" # host:container
     volumes:
       # Persistent storage
       - pgdata:/var/lib/postgresql/data
 
       # Auto-init SQL scripts (executed once when DB is first created)
+      - ./backend/src/scripts/init-user.sql:/docker-entrypoint-initdb.d/00_init-user.sql:ro
       - ./backend/src/scripts/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
       - ./backend/src/scripts/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql:ro
 

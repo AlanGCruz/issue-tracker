@@ -1,12 +1,24 @@
 -- =====================================================
 -- Issues table
 -- =====================================================
+-- Create ENUM types first
+DO $$ 
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'issue_status') THEN
+        CREATE TYPE issue_status AS ENUM ('todo', 'in-progress', 'done');
+    END IF;
+    
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'issue_priority') THEN
+        CREATE TYPE issue_priority AS ENUM ('low', 'med', 'high');
+    END IF;
+END $$;
+
 CREATE TABLE IF NOT EXISTS issues (
   id SERIAL PRIMARY KEY,
   title TEXT NOT NULL,
   description TEXT DEFAULT '',
-  status TEXT NOT NULL DEFAULT 'todo' CHECK (status IN ('todo','in-progress','done')),
-  priority TEXT NOT NULL DEFAULT 'med' CHECK (priority IN ('low','med','high')),
+  status issue_status NOT NULL DEFAULT 'todo',
+  priority issue_priority NOT NULL DEFAULT 'med',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
