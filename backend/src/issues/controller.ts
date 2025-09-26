@@ -17,7 +17,7 @@ export interface IssuesController {
   list: RequestHandler<{}, Issue[], {}, ListQuery>;
   create: RequestHandler<{}, Issue, CreateIssueInput>;
   update: RequestHandler<{ id: string }, Issue, UpdateIssueInput>;
-  remove: RequestHandler<{ id: string }>;
+  delete: RequestHandler<{ id: string }>;
 }
 
 /** GET /api/issues?status=&priority= */
@@ -42,7 +42,7 @@ export const create: IssuesController["create"] = asyncHandler<
 });
 
 /** PATCH /api/issues/:id */
-const update: IssuesController["update"] = asyncHandler<
+export const update: IssuesController["update"] = asyncHandler<
   { id: string },
   Issue,
   UpdateIssueInput
@@ -55,7 +55,7 @@ const update: IssuesController["update"] = asyncHandler<
 });
 
 /** DELETE /api/issues/:id */
-const remove: IssuesController["remove"] = asyncHandler<{ id: string }>(
+export const remove: IssuesController["delete"] = asyncHandler<{ id: string }>(
   async (req, res) => {
     const id = Number(req.params.id);
     if (!Number.isFinite(id))
@@ -65,6 +65,6 @@ const remove: IssuesController["remove"] = asyncHandler<{ id: string }>(
   }
 );
 
-// Optional default export if your router imports a single object
-const controller: IssuesController = { list, create, update, remove };
+// Export the controller with all handlers
+const controller: IssuesController = { list, create, update, delete: remove };
 export default controller;

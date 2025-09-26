@@ -5,7 +5,7 @@ export interface IssuesController {
   list: RequestHandler;
   create: RequestHandler;
   update: RequestHandler;
-  remove: RequestHandler;
+  delete: RequestHandler;
 }
 
 const r = Router();
@@ -13,6 +13,6 @@ const r = Router();
 r.get("/", controller.list);
 r.post("/", controller.create);
 r.patch("/:id", controller.update);
-r.delete("/:id", controller.remove);
+r.delete("/:id", controller.delete);
 
 export default r;

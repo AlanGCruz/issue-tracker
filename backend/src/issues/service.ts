@@ -74,9 +74,9 @@ export function createIssuesService(repo: IssuesRepo) {
       });
     },
 
-    async remove(id: number): Promise<boolean> {
+    async remove(id: number): Promise<void> {
       if (!Number.isFinite(id)) throw new Error("ValidationError: invalid id");
-      return repo.delete(id);
+      await repo.delete(id);
     },
   };
 }
