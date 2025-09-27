@@ -1,34 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import { IssuesProvider } from './state/issuesContext'
+import { IssuesListPage } from './pages/issuesListPage'
+import { IssueFormPage } from './pages/issuesFormPage'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <IssuesProvider>
+        <header className="site-header">
+          <nav className="container">
+            <Link to="/">Issues</Link>
+            <Link to="/issues/new" className="btn">New Issue</Link>
+          </nav>
+        </header>
+        <main className="container">
+          <Routes>
+            <Route path="/" element={<IssuesListPage />} />
+            <Route path="/issues/new" element={<IssueFormPage mode="create" />} />
+            <Route path="/issues/:id/edit" element={<IssueFormPage mode="edit" />} />
+          </Routes>
+        </main>
+      </IssuesProvider>
+    </BrowserRouter>
   )
 }
 
