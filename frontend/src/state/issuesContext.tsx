@@ -7,21 +7,18 @@ type State = {
   issues: Issue[],
   loading: boolean,
   error: string | null,
-  filter: { status?: Issue["status"], priority?: Issue["priority"] }
+  filter: { status?: Issue["status"], priority?: Issue["priority"] },
+  view: "board" | "table"
 }
 
-export type IssuesStore = {
-  state: State,
-  add: (issue: CreateIssueInput) => Promise<void>,
-  update: (id: number, issue: UpdateIssueInput) => Promise<void>,
-  remove: (id: number) => Promise<void>,
-}
+
 
 const initialState: State = {
   issues: [],
   loading: false,
   error: null,
-  filter: {}
+  filter: {},
+  view: "table"
 }
 
 type Action =
@@ -31,6 +28,8 @@ type Action =
   | { type: "ADD", Item: Issue }
   | { type: "UPDATE", Item: Issue }
   | { type: "REMOVE", id: Number }
+  | { type: "SET_VIEW", view: State["view"] }
+  | { type: "SET_FILTER", filter: State["filter"] }
 
 function reducer(s: State, action: Action): State {
   switch (action.type) {
@@ -40,7 +39,18 @@ function reducer(s: State, action: Action): State {
     case "ADD": return { ...s, issues: [action.Item, ...s.issues] };
     case "UPDATE": return { ...s, issues: s.issues.map(item => item.id === action.Item.id ? action.Item : item) };
     case "REMOVE": return { ...s, issues: s.issues.filter(item => item.id !== action.id) };
+    case "SET_VIEW": return { ...s, view: action.view };
+    case "SET_FILTER": return { ...s, filter: action.filter };
   }
+}
+
+type IssuesStore = {
+  state: State;
+  add: (issue: CreateIssueInput) => Promise<void>;
+  update: (id: number, issue: UpdateIssueInput) => Promise<void>;
+  remove: (id: number) => Promise<void>;
+  setView: (view: State["view"]) => void;
+  setFilter: (filter: State["filter"]) => void;
 }
 
 function useIssuesStore(api: IssuesApi): IssuesStore {
@@ -84,9 +94,16 @@ function useIssuesStore(api: IssuesApi): IssuesStore {
     }
   }
 
-  return { state, add, update, remove };
-}
+  const setView = (view: State["view"]) => {
+    dispatch({ type: "SET_VIEW", view });
+  };
 
+  const setFilter = (filter: State["filter"]) => {
+    dispatch({ type: "SET_FILTER", filter });
+  };
+
+  return { state, add, update, remove, setView, setFilter };
+}
 
 const IssuesCtx = createContext<ReturnType<typeof useIssuesStore> | null>(null);
 
