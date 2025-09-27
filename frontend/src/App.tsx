@@ -8,10 +8,10 @@ function App() {
   return (
     <BrowserRouter>
       <IssuesProvider>
-        <header className="site-header">
-          <nav className="container">
+        <header className="">
+          <nav className="">
             <Link to="/">Issues</Link>
-            <Link to="/issues/new" className="btn">New Issue</Link>
+            <Link to="/issues/new" className="">New Issue</Link>
           </nav>
         </header>
         <main className="container">
