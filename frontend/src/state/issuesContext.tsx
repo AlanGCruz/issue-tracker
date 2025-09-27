@@ -1,4 +1,4 @@
-import React, { createContext, type ReactNode, useContext, useEffect, useReducer } from "react";
+import { createContext, type ReactNode, useContext, useEffect, useReducer } from "react";
 import type { CreateIssueInput, Issue, UpdateIssueInput } from "../types/issues";
 import { issuesApiActions } from "../api/issues";
 import type { IssuesApi } from "../api/issues";
