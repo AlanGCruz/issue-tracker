@@ -27,4 +27,4 @@ export function createIssuesApi(http: Http): IssuesApi {
   }
 }
 
-export const issuesApu = createIssuesApi(createFetchHttp());
+export const issuesApiActions = createIssuesApi(createFetchHttp());
