@@ -1,0 +1,13 @@
+{
+  "name": "issue-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" --kill-others --prefix-colors \"blue.bold,green.bold\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
