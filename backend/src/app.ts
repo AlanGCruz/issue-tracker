@@ -2,6 +2,7 @@ import express, { type Express, type Request, type Response, type NextFunction }
 import cors from "cors";
 import helmet from "helmet";
 import issuesRouter from "./issues/routes";
+import { debugRequest } from "./issues/middleware/debug";
 
 export function createApp(): Express {
   const app = express();
@@ -16,6 +17,7 @@ export function createApp(): Express {
   });
 
   // Routes
+  app.use(debugRequest);
   app.use("/api/issues", issuesRouter);
 
   return app;

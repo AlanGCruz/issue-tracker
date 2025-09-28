@@ -11,6 +11,7 @@ export interface IssuesController {
 const r = Router();
 
 r.get("/", controller.list);
+r.get("/:id", controller.getById);
 r.post("/", controller.create);
 r.patch("/:id", controller.update);
 r.delete("/:id", controller.delete);

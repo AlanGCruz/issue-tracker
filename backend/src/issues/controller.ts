@@ -15,6 +15,7 @@ const service: IssuesService = createIssuesService(new IssuesRepoSequelize());
 
 export interface IssuesController {
   list: RequestHandler<{}, Issue[], {}, ListQuery>;
+  getById: RequestHandler<{ id: string }>;
   create: RequestHandler<{}, Issue, CreateIssueInput>;
   update: RequestHandler<{ id: string }, Issue, UpdateIssueInput>;
   delete: RequestHandler<{ id: string }>;
@@ -30,6 +31,12 @@ export const list: IssuesController["list"] = asyncHandler<
   const data = await service.list(req.query);
   res.json(data);
 });
+
+export const getById: IssuesController["getById"] = asyncHandler<{ id: string }>(
+  async (req, res) => {
+    const data = await service.getById(Number(req.params.id));
+    res.json(data);
+  });
 
 /** POST /api/issues */
 export const create: IssuesController["create"] = asyncHandler<
@@ -66,5 +73,5 @@ export const remove: IssuesController["delete"] = asyncHandler<{ id: string }>(
 );
 
 // Export the controller with all handlers
-const controller: IssuesController = { list, create, update, delete: remove };
+const controller: IssuesController = { list, getById, create, update, delete: remove };
 export default controller;
