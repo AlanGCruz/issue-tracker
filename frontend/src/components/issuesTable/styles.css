@@ -1,0 +1,20 @@
+.table-container {
+  display: flex;
+  justify-content: center;
+  padding: 5%;
+}
+
+table,
+th,
+td {
+  border: 1px, solid, white;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 15px;
+}
+
+tr:nth-child(even){
+  background-color: rgb(1, 68, 62);
+}

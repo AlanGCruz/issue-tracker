@@ -1,6 +1,7 @@
-import { IssuesBoard } from "../components/IssuesBoard";
-import { IssuesTable } from "../components/IssuesTable";
+import { IssuesBoard } from "../components/issuesBoard";
+import { IssuesTable } from "../components/issuesTable";
 import { useIssuesContext } from "../state/issuesContext";
+import "./styles.css"
 
 export function IssuesListPage() {
   const { state, setView, setFilter } = useIssuesContext();
@@ -38,8 +39,9 @@ export function IssuesListPage() {
       {loading && <p>Loading…</p>}
       {error && <p className="error" role="alert">{error}</p>}
       {!loading && !error && (
-        view === "board" ? <IssuesBoard items={items} filter={filter} /> :
-          <IssuesTable items={items} filter={filter} />
+        view === "board" 
+        ? <IssuesBoard items={items} filter={filter} /> 
+        : <IssuesTable items={items} filter={filter} />
       )}
     </section>
   );
