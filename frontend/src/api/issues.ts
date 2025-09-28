@@ -20,10 +20,10 @@ export function createIssuesApi(http: Http): IssuesApi {
       const URI = queryString ? `/issues?${queryString}` : "/issues";
       return http.get<Issue[]>(URI);
     },
-    get: (id) => http.get<Issue>(`/issues?${id}`),
+    get: (id) => http.get<Issue>(`/issues/${id}`),
     create: (input) => http.post<Issue>("/issues", input),
-    update: (id, input) => http.patch<Issue>(`/issues?${id}`, input),
-    remove: (id) => http.delete<{ok: boolean}>(`/issues?${id}`),
+    update: (id, input) => http.patch<Issue>(`/issues/${id}`, input),
+    remove: (id) => http.delete<{ok: boolean}>(`/issues/${id}`),
   }
 }
 
